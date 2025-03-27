@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrypt Mining Pool Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        .card h3 {
+            margin: 0 0 10px;
+            color: #2980b9;
+        }
+        .card p {
+            font-size: 1.2em;
+            margin: 0;
+            color: #7f8c8d;
+        }
+        .chart-container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #2980b9;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Scrypt Mining Pool Dashboard</h1>
+
+        <div class="stats">
+            <div class="card">
+                <h3>Pool Hashrate</h3>
+                <p id="hashrate">Loading...</p>
+            </div>
+            <div class="card">
+                <h3>Active Miners</h3>
+                <p id="miners">Loading...</p>
+            </div>
+            <div class="card">
+                <h3>Blocks Found</h3>
+                <p id="blocks">Loading...</p>
+            </div>
+            <div class="card">
+                <h3>Pool Status</h3>
+                <p id="status">Loading...</p>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="hashrateChart"></canvas>
+        </div>
+
+        <button onclick="fetchData()">Refresh Data</button>
+    </div>
+
+    <script>
+        // Chart setup
+        const ctx = document.getElementById('hashrateChart').getContext('2d');
+        const hashrateChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Pool Hashrate (MH/s)',
+                    data: [],
+                    borderColor: '#2980b9',
+                    fill: false,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: 'Time' } },
+                    y: { title: { display: true, text: 'Hashrate (MH/s)' } }
+                }
+            }
+        });
+
+        // Fetch data from scrypt-api
+        async function fetchData() {
+            try {
+                const response = await fetch('https://scrypt.trrxitte.com/scrypt-api');
+                const data = await response.json();
+
+                // Update stats (adjust these based on your API response structure)
+                document.getElementById('hashrate').textContent = `${(data.hashrate / 1e6).toFixed(2)} MH/s` || 'N/A';
+                document.getElementById('miners').textContent = data.miners || 'N/A';
+                document.getElementById('blocks').textContent = data.blocks || 'N/A';
+                document.getElementById('status').textContent = data.status || 'Unknown';
+
+                // Update chart
+                const now = new Date().toLocaleTimeString();
+                hashrateChart.data.labels.push(now);
+                hashrateChart.data.datasets[0].data.push(data.hashrate / 1e6); // Convert to MH/s
+                if (hashrateChart.data.labels.length > 10) { // Limit to 10 data points
+                    hashrateChart.data.labels.shift();
+                    hashrateChart.data.datasets[0].data.shift();
+                }
+                hashrateChart.update();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('hashrate').textContent = 'Error';
+                document.getElementById('miners').textContent = 'Error';
+                document.getElementById('blocks').textContent = 'Error';
+                document.getElementById('status').textContent = 'Error';
+            }
+        }
+
+        // Initial fetch and periodic refresh
+        fetchData();
+        setInterval(fetchData, 60000); // Refresh every 60 seconds
+    </script>
+</body>
+</html>
