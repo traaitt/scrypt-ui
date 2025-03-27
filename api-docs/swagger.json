@@ -1,0 +1,441 @@
+{
+  "x-generator": "copypasta 1.0",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Scrypt TRRXitte API Documentation",
+    "description": "API for interacting with the Scrypt TRRXitte mining pool.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://scrypt.trrxitte.com/api"
+    }
+  ],
+  "paths": {
+    "/miner": {
+      "get": {
+        "tags": [
+          "MinerApi"
+        ],
+        "summary": "Get miner dashboard statistics",
+        "operationId": "MinerApi_GetMinerStats",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "The ID of the miner to retrieve stats for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with miner dashboard statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MinerStats"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "method POST is not allowed"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "error building the response, <error message>"
+                }
+              }
+            }
+          }
+        },
+        "x-headers": {
+          "Access-Control-Allow-Origin": {
+            "schema": {
+              "type": "string",
+              "example": "*"
+            },
+            "description": "CORS header allowing access from any origin"
+          }
+        }
+      }
+    },
+    "/miner-history": {
+      "get": {
+        "tags": [
+          "MinerApi"
+        ],
+        "summary": "Get miner historical data",
+        "operationId": "MinerApi_GetMinerHistory",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "The ID of the miner to retrieve history for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with miner historical data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MinerHistory"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "method POST is not allowed"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "error building the response, <error message>"
+                }
+              }
+            }
+          }
+        },
+        "x-headers": {
+          "Access-Control-Allow-Origin": {
+            "schema": {
+              "type": "string",
+              "example": "*"
+            },
+            "description": "CORS header allowing access from any origin"
+          }
+        }
+      }
+    },
+    "/pool": {
+      "get": {
+        "tags": [
+          "PoolApi"
+        ],
+        "summary": "Get pool index statistics",
+        "operationId": "PoolApi_GetPoolIndex",
+        "responses": {
+          "200": {
+            "description": "Successful response with pool index statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PoolInfo"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "method POST is not allowed"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "error building the response, <error message>"
+                }
+              }
+            }
+          }
+        },
+        "x-headers": {
+          "Access-Control-Allow-Origin": {
+            "schema": {
+              "type": "string",
+              "example": "*"
+            },
+            "description": "CORS header allowing access from any origin"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MinerStats": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pendingShares": {
+            "type": "number",
+            "format": "double",
+            "description": "Number of pending shares for the miner"
+          },
+          "pendingBalance": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Pending balance in the pool's native currency"
+          },
+          "totalPaid": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Total amount paid to the miner"
+          },
+          "todayPaid": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Amount paid to the miner today"
+          },
+          "lastPayment": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp of the last payment in ISO format (e.g., 2006-01-02T15:04:05.999Z07:00)"
+          },
+          "lastPaymentLink": {
+            "type": "string",
+            "nullable": true,
+            "description": "Link to the last payment transaction"
+          },
+          "performance": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/WorkerPerformanceStatsContainer"
+              }
+            ],
+            "description": "Current performance statistics for the miner's workers"
+          }
+        }
+      },
+      "MinerHistory": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of the historical record in ISO format"
+          },
+          "hashrate": {
+            "type": "number",
+            "format": "double",
+            "description": "Hashrate of the miner at this point in time"
+          },
+          "sharesPerSecond": {
+            "type": "number",
+            "format": "double",
+            "description": "Shares submitted per second"
+          },
+          "earnings": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Earnings for this period"
+          }
+        }
+      },
+      "PoolInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true,
+            "description": "Unique identifier of the pool"
+          },
+          "coin": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ApiCoinConfig"
+              }
+            ],
+            "description": "Configuration details of the coin being mined"
+          },
+          "poolStats": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PoolStats"
+              }
+            ],
+            "description": "Current statistics of the pool"
+          },
+          "networkStats": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BlockchainStats"
+              }
+            ],
+            "description": "Blockchain network statistics"
+          },
+          "totalPaid": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Total amount paid out by the pool"
+          },
+          "totalBlocks": {
+            "type": "integer",
+            "description": "Total number of blocks mined by the pool"
+          },
+          "lastPoolBlockTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp of the last block mined by the pool"
+          }
+        }
+      },
+      "WorkerPerformanceStatsContainer": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the performance data was recorded"
+          },
+          "workers": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/WorkerPerformanceStats"
+            },
+            "description": "Performance stats for each worker"
+          }
+        }
+      },
+      "WorkerPerformanceStats": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "hashrate": {
+            "type": "number",
+            "format": "double",
+            "description": "Hashrate of the worker"
+          },
+          "sharesPerSecond": {
+            "type": "number",
+            "format": "double",
+            "description": "Shares submitted per second by the worker"
+          }
+        }
+      },
+      "ApiCoinConfig": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "description": "Type of the coin"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Name of the coin"
+          },
+          "symbol": {
+            "type": "string",
+            "nullable": true,
+            "description": "Symbol of the coin (e.g., BTC)"
+          },
+          "algorithm": {
+            "type": "string",
+            "nullable": true,
+            "description": "Mining algorithm used by the coin"
+          }
+        }
+      },
+      "PoolStats": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lastPoolBlockTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp of the last block mined"
+          },
+          "connectedMiners": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of miners currently connected"
+          },
+          "poolHashrate": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Total hashrate of the pool"
+          },
+          "sharesPerSecond": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Total shares submitted per second"
+          }
+        }
+      },
+      "BlockchainStats": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "networkHashrate": {
+            "type": "number",
+            "format": "double",
+            "description": "Total network hashrate"
+          },
+          "networkDifficulty": {
+            "type": "number",
+            "format": "double",
+            "description": "Current network difficulty"
+          },
+          "blockHeight": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Current block height of the blockchain"
+          },
+          "lastNetworkBlockTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp of the last network block"
+          }
+        }
+      }
+    }
+  }
+}
