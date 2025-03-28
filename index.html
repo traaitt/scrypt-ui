@@ -32,7 +32,7 @@
             margin-bottom: 20px;
         }
         .search-bar input {
-            width: 300px; /* Extended width */
+            width: 300px;
             padding: 8px;
             border: none;
             border-radius: 5px;
@@ -64,11 +64,10 @@
             background: linear-gradient(90deg, #00ffff, #ff00ff);
         }
         .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, 150px); /* Match width of boxes below */
-            gap: 20px;
+            display: flex;
+            gap: 20px; /* Match the gap between hashrate chart and DOGE Price */
             margin: 20px 0;
-            justify-content: center; /* Center the cards */
+            justify-content: center;
         }
         .card {
             background: #2a2a2a;
@@ -77,7 +76,8 @@
             padding: 20px;
             text-align: center;
             transition: transform 0.2s;
-            width: 150px; /* Fixed width to match boxes below */
+            width: 150px;
+            flex: 0 0 150px;
         }
         .card:hover {
             transform: scale(1.05);
@@ -95,7 +95,7 @@
             display: flex;
             align-items: stretch;
             justify-content: center;
-            gap: 20px;
+            gap: 20px; /* This is the reference gap for hashrate chart and DOGE Price */
             margin-top: 20px;
         }
         .chart-container {
@@ -129,6 +129,7 @@
             padding: 10px;
             text-align: center;
             width: 150px;
+            flex: 0 0 150px;
         }
         .price-card h4, .balance-card h4 {
             margin: 0 0 5px;
@@ -397,7 +398,7 @@
         // Auto-fetch chart data every 1 minute
         setInterval(fetchChartData, 60000);
 
-        // Manual fetch with coin filter from search bar (keypress retained for compatibility)
+        // Manual fetch with coin filter from search bar
         document.getElementById('searchInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 fetchStatsFromSearch();
