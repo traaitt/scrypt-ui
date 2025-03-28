@@ -112,7 +112,12 @@
             justify-content: space-between;
             height: 100%;
         }
-        .price-earned, .balances, .revenue {
+        .balance-display {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .price-earned, .revenue {
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -120,26 +125,26 @@
         .price-earned-row {
             display: flex;
             align-items: center;
-            gap: 5px; /* Reduced gap to fit smaller cards */
+            gap: 5px;
         }
-        .price-card, .balance-card, .revenue-card {
+        .price-card, .revenue-card {
             background: #2a2a2a;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            padding: 5px; /* Reduced padding to fit smaller size */
+            padding: 5px;
             text-align: center;
-            width: 75px; /* Half of 150px */
+            width: 75px;
             flex: 0 0 75px;
         }
-        .price-card h4, .balance-card h4 {
-            margin: 0 0 3px; /* Reduced margin */
+        .price-card h4 {
+            margin: 0 0 3px;
             color: #ffff00; /* Yellow */
-            font-size: 0.9em; /* Slightly smaller font */
+            font-size: 0.9em;
         }
-        .price-card p, .balance-card p {
+        .price-card p {
             margin: 0;
             color: #00ff00; /* Green */
-            font-size: 0.9em; /* Slightly smaller font */
+            font-size: 0.9em;
         }
         .revenue-card h4 {
             margin: 0 0 3px;
@@ -153,19 +158,19 @@
             color: #00ff00; /* Green */
             font-size: 0.9em;
         }
-        .earned-item {
+        .balance-item {
             display: flex;
             align-items: center;
-            gap: 3px; /* Reduced gap to fit smaller layout */
+            gap: 5px;
         }
-        .earned-item img {
-            width: 15px; /* Reduced icon size */
+        .balance-item img {
+            width: 15px;
             height: 15px;
         }
-        .earned-item p {
+        .balance-item p {
             margin: 0;
-            color: #00ffff; /* Cyan */
-            font-size: 0.8em; /* Smaller font */
+            color: #00ff00; /* Green to match price and revenue */
+            font-size: 0.9em;
         }
         .button-row {
             display: flex;
@@ -223,15 +228,21 @@
                 <canvas id="hashrateChart"></canvas>
             </div>
             <div class="prices-and-balances">
+                <div class="balance-display">
+                    <div class="balance-item">
+                        <img src="https://cryptologos.cc/logos/dogecoin-doge-logo.png" alt="DOGE">
+                        <p id="dogeBalance">9862</p>
+                    </div>
+                    <div class="balance-item">
+                        <img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="LTC">
+                        <p id="ltcBalance">0.2673</p>
+                    </div>
+                </div>
                 <div class="price-earned">
                     <div class="price-earned-row">
                         <div class="price-card">
                             <h4>DOGE Price</h4>
                             <p id="dogePrice">Loading...</p>
-                        </div>
-                        <div class="earned-item">
-                            <img src="https://cryptologos.cc/logos/dogecoin-doge-logo.png" alt="DOGE">
-                            <p id="dogeEarned">9862</p>
                         </div>
                     </div>
                     <div class="price-earned-row">
@@ -239,20 +250,6 @@
                             <h4>LTC Price</h4>
                             <p id="ltcPrice">Loading...</p>
                         </div>
-                        <div class="earned-item">
-                            <img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="LTC">
-                            <p id="ltcEarned">0.2673</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="balances">
-                    <div class="balance-card">
-                        <h4>Balance: DOGE</h4>
-                        <p id="dogeBalance">Loading...</p>
-                    </div>
-                    <div class="balance-card">
-                        <h4>Balance: LTC</h4>
-                        <p id="ltcBalance">Loading...</p>
                     </div>
                 </div>
                 <div class="revenue">
@@ -318,13 +315,9 @@
                 document.getElementById('blocks').textContent = data.blocks || 'N/A';
                 document.getElementById('status').textContent = data.status || 'Unknown';
 
-                // Update balances (assuming API provides this data)
+                // Update balances and replace the initial earned amounts
                 document.getElementById('dogeBalance').textContent = data.dogeBalance?.toFixed(2) || 'N/A';
                 document.getElementById('ltcBalance').textContent = data.ltcBalance?.toFixed(4) || 'N/A';
-
-                // Update earned amounts (assuming API provides this data)
-                document.getElementById('dogeEarned').textContent = data.dogeEarned?.toFixed(2) || '9862';
-                document.getElementById('ltcEarned').textContent = data.ltcEarned?.toFixed(4) || '0.2673';
 
                 // Update total revenue (assuming API provides this data)
                 document.getElementById('totalRevenue').textContent = `$${data.totalRevenue?.toFixed(2) || '1'}`;
