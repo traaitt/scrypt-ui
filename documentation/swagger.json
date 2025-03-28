@@ -2,7 +2,7 @@
   "x-generator": "copypasta 1.0",
   "openapi": "3.0.0",
   "info": {
-    "title": "Scrypt TRRXitte API Documentation",
+    "title": "Scrypt TRRXITTE API Documentation",
     "description": "API for interacting with the Scrypt TRRXitte mining pool.",
     "version": "1.0.0"
   },
