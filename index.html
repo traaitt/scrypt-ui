@@ -73,6 +73,7 @@
             margin: 20px 0;
             justify-content: flex-start; /* Left-align on desktop */
             -webkit-justify-content: flex-start;
+            width: 50%; /* Match the width of the chart-container */
         }
         .card {
             background: #2a2a2a;
@@ -81,9 +82,9 @@
             padding: 20px;
             text-align: center;
             transition: transform 0.2s;
-            width: 150px;
-            flex: 0 0 150px;
-            -webkit-flex: 0 0 150px; /* iOS Safari compatibility */
+            flex: 1; /* Distribute space evenly among cards */
+            -webkit-flex: 1;
+            min-width: 0; /* Prevent overflow */
         }
         .card:hover {
             transform: scale(1.05);
@@ -114,7 +115,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             padding: 15px;
-            width: 50%;
+            width: 50%; /* This width is used as reference */
         }
         .prices-and-balances {
             display: flex;
@@ -208,6 +209,7 @@
             padding: 5px 0;
             justify-content: center; /* Keep centered on mobile */
             -webkit-justify-content: center;
+            width: 100%; /* Full width on mobile */
         }
         body.is-mobile .card {
             width: 80px; /* Reduced width to fit all boxes */
