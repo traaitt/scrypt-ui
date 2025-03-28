@@ -159,7 +159,7 @@
             margin-top: 20px;
             width: 100%; /* Full width within main-content */
         }
-        .button-row button {
+        .button-row a {
             padding: 10px 20px;
             background: linear-gradient(90deg, #ff00ff, #00ffff);
             color: #fff;
@@ -171,8 +171,11 @@
             flex: 1; /* Distribute space evenly among buttons */
             -webkit-flex: 1;
             min-width: 0; /* Prevent overflow */
+            text-align: center;
+            text-decoration: none; /* Remove underline from links */
+            display: inline-block; /* Ensure proper sizing */
         }
-        .button-row button:hover {
+        .button-row a:hover {
             background: linear-gradient(90deg, #00ffff, #ff00ff);
         }
 
@@ -286,7 +289,7 @@
             -webkit-justify-content: center;
             width: 100%; /* Full width on mobile */
         }
-        body.is-mobile .button-row button {
+        body.is-mobile .button-row a {
             width: 100%;
             max-width: 200px;
             padding: 6px 10px;
@@ -357,10 +360,10 @@
             </div>
 
             <div class="button-row">
-                <button onclick="fetchStats()">Refresh Stats</button>
-                <button onclick="fetchPrices()">Refresh Prices</button>
-                <button onclick="fetchChartData()">Refresh Chart</button>
-                <button onclick="fetchAll()">Refresh All</button>
+                <a href="https://trrxitte.com" target="_blank">TRRXITTE</a>
+                <a href="https://sha256.trrxitte.com" target="_blank">SHA256 BTC</a>
+                <a href="https://scrypt.trrxitte.com/api-docs" target="_blank">API docs</a>
+                <a href="https://t.me/minetrrxitte" target="_blank">Support</a>
             </div>
         </div>
 
@@ -435,53 +438,6 @@
             }
         });
 
-        // Fetch pool stats
-        async function fetchStats(coin = '') {
-            try {
-                let url = 'https://scrypt.trrxitte.com/scrypt-api';
-                if (coin) url += `?coin=${coin}`;
-                const response = await fetch(url);
-                const data = await response.json();
-
-                currentHashrate = (data.hashrate / 1e6) || 0;
-                document.getElementById('hashrate').textContent = `${currentHashrate.toFixed(2)} MH/s` || 'N/A';
-                document.getElementById('miners').textContent = data.miners || 'Error';
-                document.getElementById('blocks').textContent = data.blocks || 'Error';
-                document.getElementById('status').textContent = data.status || 'Error';
-
-                // Update balances
-                document.getElementById('dogeBalance').textContent = data.dogeBalance?.toFixed(2) || 'balance fetch';
-                document.getElementById('ltcBalance').textContent = data.ltcBalance?.toFixed(4) || 'balance fetch';
-
-                // Fetch paid and pending amounts for DOGE and LTC
-                const dogePaid = data.dogePaid || 0;
-                const dogePending = data.dogePending || 0;
-                const ltcPaid = data.ltcPaid || 0;
-                const ltcPending = data.ltcPending || 0;
-
-                // Calculate total revenue in USD
-                const dogeTotal = (dogePaid + dogePending) * dogePriceUSD;
-                const ltcTotal = (ltcPaid + ltcPending) * ltcPriceUSD;
-                const totalRevenue = dogeTotal + ltcTotal;
-
-                // Update total revenue with 4 decimal places
-                document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(4)}`;
-
-                // Update chart label with hashrate value first
-                hashrateChart.data.datasets[0].label = `${currentHashrate.toFixed(1)} MH/s`;
-                hashrateChart.update();
-            } catch (error) {
-                console.error('Error fetching stats:', error);
-                document.getElementById('hashrate').textContent = 'Error';
-                document.getElementById('miners').textContent = 'Error';
-                document.getElementById('blocks').textContent = 'Error';
-                document.getElementById('status').textContent = 'Error';
-                document.getElementById('dogeBalance').textContent = 'balance fetch';
-                document.getElementById('ltcBalance').textContent = 'balance fetch';
-                document.getElementById('totalRevenue').textContent = '$1.0000';
-            }
-        }
-
         // Fetch chart data (1-minute interval, 24-hour history)
         async function fetchChartData(coin = '') {
             try {
@@ -509,40 +465,16 @@
             }
         }
 
-        // Fetch DOGE and LTC prices
-        async function fetchPrices() {
-            try {
-                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=dogecoin,litecoin&vs_currencies=usd');
-                const data = await response.json();
-                dogePriceUSD = data.dogecoin.usd || 0;
-                ltcPriceUSD = data.litecoin.usd || 0;
-                document.getElementById('dogePrice').textContent = `$${dogePriceUSD.toFixed(4)}`;
-                document.getElementById('ltcPrice').textContent = `$${ltcPriceUSD.toFixed(2)}`;
-            } catch (error) {
-                console.error('Error fetching prices:', error);
-                document.getElementById('dogePrice').textContent = '$0.1898';
-                document.getElementById('ltcPrice').textContent = '$92.80';
-            }
-        }
-
         // Fetch stats based on search bar input
         function fetchStatsFromSearch() {
             const coin = document.getElementById('searchInput').value.toLowerCase();
             if (coin === 'doge' || coin === 'ltc') {
-                fetchStats(coin);
                 fetchChartData(coin);
             }
         }
 
-        // Fetch all data
-        async function fetchAll() {
-            await fetchPrices();
-            await fetchStats();
-            fetchChartData();
-        }
-
         // Initial fetch
-        fetchAll();
+        fetchChartData();
 
         // Auto-fetch chart data every 1 minute
         setInterval(fetchChartData, 60000);
