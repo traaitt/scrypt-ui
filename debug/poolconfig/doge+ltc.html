@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Mining Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .bg-maroon-gradient { background: linear-gradient(45deg, #800000, #a52a2a); }
+        .bg-teal-gradient { background: linear-gradient(45deg, #008080, #20b2aa); }
+        .bg-indigo-gradient { background: linear-gradient(45deg, #4b0082, #6a5acd); }
+        .card-header h3 { color: #191919; margin: 0; }
+        .card-category { color: #191919; font-size: 0.9em; }
+        .card-title { color: #191919; font-size: 0.9em; }
+        .config-example { 
+            background: #191919; 
+            color: #fff; /* Added new text color */
+            padding: 15px; 
+            border-radius: 5px; 
+            font-family: monospace; 
+        }
+
+        .tutorial-section {
+    background-color: #191919;
+    margin: 20px 0; 
+    /* Optional: Change text color for better contrast */
+    color: magenta;
+}
+    </style>
+</head>
+<body>
+
+        <!-- Tutorial Section -->
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card tutorial-section">
+                    
+                        <h3 class="card-title"><i class="fas fa-book"></i> Mining Tutorial</h3>
+                        <p class="card-category">EUROPE high latency stratum</p>
+                    </div>
+                    <div class="card-body">
+                        <h4>   </h4>
+                        <ol>
+                            <li>Register and get your LTC + DOGE wallet address</li>
+                            <li>Choose mining hardware (ASIC recommended)</li>
+                            <li>Download mining software (see below)</li>
+                            <li>Configure with pool details</li>
+                            <li>Monitor performance and earnings</li>
+                    
+                        </ol>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Miner Configurations Section -->
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                
+                    <div class="card-body" id="miner-config">
+                        <h5>Main information</h5>
+                        <pre class="config-example">
+                           
+URL: POOL_STRATUM_ADDRESS_AND_PORT
+One of the stratum addresses above in the Pool Configuration section depending on the difficulty.
+Example: stratum+tcp://scrypt.trrxitte.com:2000
+                      
+Wallet_address: YOUR_LTC_WALLET_ADDRESS-YOUR_DOGE_WALLET_ADDRESS.WORKER_NAME
+Your valid wallet address for payouts. Generate it using the official wallet or use the address of any crypto exchange.
+Example: HIVGVHHGUTFYCTGVHBJ
+                          
+RIGId - Optional name of the worker for statistics. Use English letters, numbers, and symbols '_' or '-'.
+Example: SCRYPT-ASIC-SHA256-440_500
+                           
+
+Password can be left blank. 
+
+                            </pre>
+
+                            
+                        <h5>Mining Rig Rentals (ASIC/GPU)</h5>
+                        <pre class="config-example">
+Pool: stratum+tcp://scrypt.trrxitte.com:2000
+Username: LTC-DOGEWALLET.RigID
+Algorithm: SCRYPT
+                        </pre>
+<!--
+                        <h5>BFGMiner (ASIC/GPU)</h5>
+                        <pre class="config-example">
+bfgminer -o stratum+tcp://sha256.ae:1000
+Pool: stratum+tcp://sha256.ae:1000
+Username: BitcoinWALLETADDRESS.RigID
+Password: x
+Algorithm: SHA-256
+custom diff: d=1000000 (1M for 100THs ), use as password
+                        </pre>
+
+                        <h5>phoenixMiner (GPU)</h5>
+                        <pre class="config-example">
+PhoenixMiner.exe -pool stratum+tcp://sha256.ae:1000
+Pool: stratum+tcp://sha256.ae:1000
+Username: BitcoinWALLETADDRESS.RigID
+Password: x
+Algorithm: SHA-256
+custom diff: d=1000000 (1M for 100THs ), use as password
+                        </pre>
+
+                        <h5>easyMiner (GUI-based)</h5>
+                        <pre class="config-example">
+GUI Settings:
+Pool: stratum+tcp://sha256.ae:1000
+Username: BitcoinWALLETADDRESS.RigID
+Password: x
+Algorithm: SHA-256
+custom diff: d=1000000 (1M for 100THs ), use as password
+                        </pre>
+                    -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
