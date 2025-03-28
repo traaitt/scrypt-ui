@@ -84,10 +84,17 @@
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            transition: background 0.3s;
+            transition: background 0.3s, transform 0.1s; /* Add transform transition for click animation */
         }
         .search-bar .enter-button:hover {
             background: linear-gradient(90deg, #00ffff, #ff00ff);
+        }
+        .search-bar .enter-button:active {
+            transform: scale(0.95); /* Slight scale down on click for tactile feedback */
+        }
+        .search-bar .enter-button:disabled {
+            background: #555; /* Grayed out when disabled */
+            cursor: not-allowed;
         }
         .stats {
             display: flex;
@@ -307,7 +314,7 @@
                 <div class="icon-group">
                     <button onclick="fetchData('doge')"><img src="https://cryptologos.cc/logos/dogecoin-doge-logo.png" alt="DOGE"></button>
                     <button onclick="fetchData('ltc')"><img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="LTC"></button>
-                    <button class="enter-button" onclick="fetchStatsFromSearch()">ENTER</button>
+                    <button class="enter-button" onclick="fetchStatsFromSearch(this)">ENTER</button>
                 </div>
             </div>
 
@@ -385,9 +392,7 @@
             document.getElementById('title').textContent = 'SCRYPT x TRRXITTE'; // Set mobile title
         }
 
-        // Global variables to store prices and hashrate for chart label
-        let dogePriceUSD = 0;
-        let ltcPriceUSD = 0;
+        // Global variable to store hashrate for chart label
         let currentHashrate = 0;
 
         // Chart setup for 24-hour timeframe
@@ -465,11 +470,23 @@
             }
         }
 
-        // Fetch stats based on search bar input
-        function fetchStatsFromSearch() {
-            const coin = document.getElementById('searchInput').value.toLowerCase();
-            if (coin === 'doge' || coin === 'ltc') {
-                fetchChartData(coin);
+        // Fetch stats based on search bar input with button feedback
+        async function fetchStatsFromSearch(button) {
+            // Add feedback: disable button and show "Loading..."
+            button.disabled = true;
+            button.textContent = 'Loading...';
+
+            try {
+                const coin = document.getElementById('searchInput').value.toLowerCase();
+                if (coin === 'doge' || coin === 'ltc') {
+                    await fetchChartData(coin);
+                }
+            } catch (error) {
+                console.error('Error in fetchStatsFromSearch:', error);
+            } finally {
+                // Reset button state after fetch completes (success or failure)
+                button.disabled = false;
+                button.textContent = 'ENTER';
             }
         }
 
@@ -479,10 +496,11 @@
         // Auto-fetch chart data every 1 minute
         setInterval(fetchChartData, 60000);
 
-        // Manual fetch with coin filter from search bar
+        // Manual fetch with coin filter from search bar (via Enter key)
         document.getElementById('searchInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                fetchStatsFromSearch();
+                const enterButton = document.querySelector('.enter-button');
+                fetchStatsFromSearch(enterButton);
             }
         });
     </script>
