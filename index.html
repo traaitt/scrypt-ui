@@ -78,7 +78,7 @@
         }
         .chart-and-prices {
             display: flex;
-            align-items: center;
+            align-items: stretch; /* Ensure children stretch to match height */
             justify-content: center;
             gap: 20px;
             margin-top: 20px;
@@ -94,10 +94,17 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            justify-content: space-between; /* Distribute space evenly */
+            height: 100%; /* Match the height of the chart */
         }
-        .prices, .balances, .revenue {
+        .price-earned, .balances, .revenue {
             display: flex;
             flex-direction: column;
+            gap: 10px;
+        }
+        .price-earned-row {
+            display: flex;
+            align-items: center;
             gap: 10px;
         }
         .price-card, .balance-card, .revenue-card {
@@ -128,16 +135,9 @@
             color: #00ff00; /* Green */
             font-size: 1.1em;
         }
-        .earned {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
         .earned-item {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 5px;
         }
         .earned-item img {
@@ -204,14 +204,26 @@
                 <canvas id="hashrateChart"></canvas>
             </div>
             <div class="prices-and-balances">
-                <div class="prices">
-                    <div class="price-card">
-                        <h4>DOGE Price</h4>
-                        <p id="dogePrice">Loading...</p>
+                <div class="price-earned">
+                    <div class="price-earned-row">
+                        <div class="price-card">
+                            <h4>DOGE Price</h4>
+                            <p id="dogePrice">Loading...</p>
+                        </div>
+                        <div class="earned-item">
+                            <img src="https://cryptologos.cc/logos/dogecoin-doge-logo.png" alt="DOGE">
+                            <p id="dogeEarned">9862</p>
+                        </div>
                     </div>
-                    <div class="price-card">
-                        <h4>LTC Price</h4>
-                        <p id="ltcPrice">Loading...</p>
+                    <div class="price-earned-row">
+                        <div class="price-card">
+                            <h4>LTC Price</h4>
+                            <p id="ltcPrice">Loading...</p>
+                        </div>
+                        <div class="earned-item">
+                            <img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="LTC">
+                            <p id="ltcEarned">0.2673</p>
+                        </div>
                     </div>
                 </div>
                 <div class="balances">
@@ -228,16 +240,6 @@
                     <div class="revenue-card">
                         <h4>TOTAL REVENUE</h4>
                         <p id="totalRevenue">$1</p>
-                    </div>
-                    <div class="earned">
-                        <div class="earned-item">
-                            <img src="https://cryptologos.cc/logos/dogecoin-doge-logo.png" alt="DOGE">
-                            <p id="dogeEarned">9862</p>
-                        </div>
-                        <div class="earned-item">
-                            <img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="LTC">
-                            <p id="ltcEarned">0.2673</p>
-                        </div>
                     </div>
                 </div>
             </div>
