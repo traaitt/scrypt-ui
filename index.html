@@ -189,100 +189,105 @@
             background: linear-gradient(90deg, #00ffff, #ff00ff);
         }
 
-        /* Mobile layout adjustments */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            .container {
-                max-width: 100%;
-            }
-            h1 {
-                font-size: 1.2em; /* Smaller font size for mobile */
-                margin-bottom: 10px;
-            }
-            h1::after {
-                content: "SCRYPT x TRRXITTE"; /* Override title on mobile */
-                background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            .search-bar {
-                flex-direction: row;
-                gap: 5px;
-                margin-bottom: 15px;
-            }
-            .search-bar input, .search-bar button, .search-bar .enter-button {
-                width: 25%; /* Same width for all elements */
-                max-width: 80px;
-                padding: 5px;
-                font-size: 0.8em;
-                border-radius: 3px; /* Smaller radius for consistency */
-            }
-            .search-bar img {
-                width: 20px;
-                height: 20px;
-            }
-            .search-bar .enter-button {
-                padding: 5px;
-            }
-            .stats {
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-                align-items: center;
-            }
-            .card {
-                width: 100%;
-                max-width: 250px;
-                padding: 8px;
-                border-radius: 4px; /* Smaller radius for mobile */
-            }
-            .card h3 {
-                font-size: 0.8em; /* Smaller text */
-            }
-            .card p {
-                font-size: 0.9em; /* Smaller text */
-            }
-            .chart-and-prices {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .chart-container {
-                width: 100%;
-                padding: 10px;
-            }
-            .prices-and-balances {
-                width: 100%;
-                gap: 5px;
-            }
-            .balance-display, .price-earned, .revenue {
-                gap: 5px;
-            }
-            .price-card, .revenue-card {
-                width: 100%;
-                max-width: 150px;
-                padding: 8px;
-            }
-            .price-card h4, .revenue-card h4 {
-                font-size: 0.8em;
-            }
-            .price-card p, .revenue-card p {
-                font-size: 0.8em;
-            }
-            .balance-item p {
-                font-size: 0.8em;
-            }
-            .button-row {
-                flex-direction: column;
-                gap: 5px;
-            }
-            .button-row button {
-                width: 100%;
-                max-width: 200px;
-                padding: 6px 10px;
-                font-size: 0.7em;
-            }
+        /* Mobile layout adjustments (applied only if body has .is-mobile class) */
+        body.is-mobile {
+            padding: 10px;
+        }
+        body.is-mobile .container {
+            max-width: 100%;
+        }
+        body.is-mobile h1 {
+            font-size: 1.2em; /* Smaller font size for mobile */
+            margin-bottom: 10px;
+        }
+        body.is-mobile h1::after {
+            content: "SCRYPT x TRRXITTE"; /* Override title on mobile */
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        body.is-mobile .search-bar {
+            flex-direction: row;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        body.is-mobile .search-bar input,
+        body.is-mobile .search-bar button,
+        body.is-mobile .search-bar .enter-button {
+            width: 25%; /* Same width for all elements */
+            max-width: 80px;
+            padding: 5px;
+            font-size: 0.8em;
+            border-radius: 3px; /* Smaller radius for consistency */
+        }
+        body.is-mobile .search-bar img {
+            width: 20px;
+            height: 20px;
+        }
+        body.is-mobile .search-bar .enter-button {
+            padding: 5px;
+        }
+        body.is-mobile .stats {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+        body.is-mobile .card {
+            width: 100%;
+            max-width: 250px;
+            padding: 8px;
+            border-radius: 4px; /* Smaller radius for mobile */
+        }
+        body.is-mobile .card h3 {
+            font-size: 0.8em; /* Smaller text */
+        }
+        body.is-mobile .card p {
+            font-size: 0.9em; /* Smaller text */
+        }
+        body.is-mobile .chart-and-prices {
+            flex-direction: column;
+            gap: 10px;
+        }
+        body.is-mobile .chart-container {
+            width: 100%;
+            padding: 10px;
+        }
+        body.is-mobile .prices-and-balances {
+            width: 100%;
+            gap: 5px;
+        }
+        body.is-mobile .balance-display,
+        body.is-mobile .price-earned,
+        body.is-mobile .revenue {
+            gap: 5px;
+        }
+        body.is-mobile .price-card,
+        body.is-mobile .revenue-card {
+            width: 100%;
+            max-width: 150px;
+            padding: 8px;
+        }
+        body.is-mobile .price-card h4,
+        body.is-mobile .revenue-card h4 {
+            font-size: 0.8em;
+        }
+        body.is-mobile .price-card p,
+        body.is-mobile .revenue-card p {
+            font-size: 0.8em;
+        }
+        body.is-mobile .balance-item p {
+            font-size: 0.8em;
+        }
+        body.is-mobile .button-row {
+            flex-direction: column;
+            gap: 5px;
+        }
+        body.is-mobile .button-row button {
+            width: 100%;
+            max-width: 200px;
+            padding: 6px 10px;
+            font-size: 0.7em;
         }
     </style>
 </head>
@@ -363,6 +368,17 @@
     </div>
 
     <script>
+        // Detect if the device is mobile based on user agent
+        function isMobileDevice() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+        }
+
+        // Apply mobile class if the device is mobile
+        if (isMobileDevice()) {
+            document.body.classList.add('is-mobile');
+        }
+
         // Global variables to store prices and hashrate for chart label
         let dogePriceUSD = 0;
         let ltcPriceUSD = 0;
