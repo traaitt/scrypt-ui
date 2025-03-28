@@ -226,27 +226,38 @@
         body.is-mobile .search-bar {
             flex-direction: row;
             -webkit-flex-direction: row;
-            gap: 5px;
+            gap: 0; /* Remove padding between elements */
             margin-bottom: 15px;
+            align-items: center;
+            -webkit-align-items: center;
         }
-        body.is-mobile .search-bar input,
-        body.is-mobile .search-bar button,
-        body.is-mobile .search-bar .enter-button {
-            width: 25%; /* Same width for all elements */
-            max-width: 90px; /* Slightly wider to fit placeholder text */
+        body.is-mobile .search-bar input {
+            width: 60%; /* Wider input field */
+            max-width: 200px; /* Increased max-width for better fit */
             padding: 5px;
             font-size: 0.7em; /* Smaller font to fit placeholder */
-            border-radius: 3px; /* Smaller radius for consistency */
+            border-radius: 3px 0 0 3px; /* Rounded left corners, flat right */
         }
         body.is-mobile .search-bar input::placeholder {
             font-size: 0.7em; /* Ensure placeholder fits */
+        }
+        body.is-mobile .search-bar .icon-group {
+            display: flex;
+            display: -webkit-flex;
+            gap: 0; /* No gap between icons and button */
+        }
+        body.is-mobile .search-bar button {
+            padding: 5px;
+            border-radius: 0; /* Flat edges between icons and button */
         }
         body.is-mobile .search-bar img {
             width: 20px;
             height: 20px;
         }
         body.is-mobile .search-bar .enter-button {
-            padding: 5px;
+            padding: 5px 10px;
+            border-radius: 0 3px 3px 0; /* Rounded right corners, flat left */
+            font-size: 0.7em;
         }
         body.is-mobile .stats {
             display: flex;
@@ -326,9 +337,11 @@
 
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="LTC-DOGE address">
-            <button onclick="fetchData('doge')"><img src="https://cryptologos.cc/logos/dogecoin-doge-logo.png" alt="DOGE"></button>
-            <button onclick="fetchData('ltc')"><img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="LTC"></button>
-            <button class="enter-button" onclick="fetchStatsFromSearch()">ENTER</button>
+            <div class="icon-group">
+                <button onclick="fetchData('doge')"><img src="https://cryptologos.cc/logos/dogecoin-doge-logo.png" alt="DOGE"></button>
+                <button onclick="fetchData('ltc')"><img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="LTC"></button>
+                <button class="enter-button" onclick="fetchStatsFromSearch()">ENTER</button>
+            </div>
         </div>
 
         <div class="stats">
