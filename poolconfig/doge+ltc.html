@@ -12,7 +12,7 @@
         .bg-maroon-gradient { background: linear-gradient(45deg, #800000, #a52a2a); }
         .bg-teal-gradient { background: linear-gradient(45deg, #008080, #20b2aa); }
         .bg-indigo-gradient { background: linear-gradient(45deg, #4b0082, #6a5acd); }
-        .card-header h3 { color: white; margin: 0; }
+        .card-header h3 { color: #FFF0F5; margin: 0; }
         .card-category { color: #191919; font-size: 0.9em; }
         .card-title { color: #191919; font-size: 0.9em; }
         .config-example { 
@@ -27,7 +27,7 @@
     background-color: #191919;
     margin: 20px 0; 
     /* Optional: Change text color for better contrast */
-    color: #ffffff;
+    color: rgba(152, 17, 255, 0.6);
 }
     </style>
 </head>
@@ -35,7 +35,7 @@
     <!-- POOL CONNECT PAGE -->
     <div class="page page-connect">
         <section class="content-header py-3">
-            <h1 class="text-center">Bitcoin Mining Dashboard <small>[BTC]</small></h1>
+            <h1 class="text-center">DOGE and LTC Mining Dashboard <small>(scrypt merge)</small></h1>
         </section>
 
         <!-- Tutorial Section -->
@@ -44,12 +44,12 @@
                 <div class="card tutorial-section">
                     <div class="card-header bg-teal-gradient">
                         <h3 class="card-title"><i class="fas fa-book"></i> Mining Tutorial</h3>
-                        <p class="card-category">UAE USA and EU servers, with high speed + latency stratum</p>
+                        <p class="card-category">EUROPE high latency stratum</p>
                     </div>
                     <div class="card-body">
                         <h4>Setup </h4>
                         <ol>
-                            <li>Register and get your BTC wallet address</li>
+                            <li>Register and get your LTC + DOGE wallet address</li>
                             <li>Choose mining hardware (ASIC recommended)</li>
                             <li>Download mining software (see below)</li>
                             <li>Configure with pool details</li>
@@ -77,25 +77,24 @@ URL: POOL_STRATUM_ADDRESS_AND_PORT
 One of the stratum addresses above in the Pool Configuration section depending on the difficulty.
 Example: stratum+tcp://sha256.ae:1000
                       
-Wallet_address: YOUR_WALLET_ADDRESS.WORKER_NAME
-Your valid Bitcoin wallet address for payouts. Generate it using the official wallet or use the address of any crypto exchange.
-Example: 1G6SSR5Y7H7820c68ncAX8V9JGMyoZ4
+Wallet_address: YOUR_LTC_WALLET_ADDRESS-YOUR_DOGE_WALLET_ADDRESS.WORKER_NAME
+Your valid wallet address for payouts. Generate it using the official wallet or use the address of any crypto exchange.
+Example: HIVGVHHGUTFYCTGVHBJ
                           
 RIGId - Optional name of the worker for statistics. Use English letters, numbers, and symbols '_' or '-'.
-Example: BTC-ASIC-SHA256-1_04
+Example: SCRYPT-ASIC-SHA256-440_500
                            
-Password: PASSWORD
-Password can be left blank. Optional: For your own difficulty, use d=XXX as password in your miner configuration where XXX denotes difficulty.
-Example: d=150000
+
+Password can be left blank. 
+
                             </pre>
 
                             
                         <h5>Mining Rig Rentals (ASIC/GPU)</h5>
                         <pre class="config-example">
-Pool: stratum+tcp://sha256.ae:1000
-Username: BitcoinWALLET.RigID
-Algorithm: SHA256 | SHA256 Asic Boost
-custom diff: d=1000000 (1M for 100THs ), use as password
+Pool: stratum+tcp://scrypt.trrxitte.com:2000
+Username: LTC-DOGEWALLET.RigID
+Algorithm: SCRYPT
                         </pre>
 <!--
                         <h5>BFGMiner (ASIC/GPU)</h5>
